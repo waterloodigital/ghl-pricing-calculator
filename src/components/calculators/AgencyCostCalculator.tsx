@@ -2,6 +2,18 @@
 
 import { useState, useMemo } from 'react';
 import { formatCurrency } from '@/lib/utils';
+import {
+  BookOpen,
+  Calculator,
+  TrendingUp,
+  Settings,
+  DollarSign,
+  BarChart3,
+  ChevronDown,
+  ChevronUp,
+  Lightbulb,
+  ArrowRight
+} from 'lucide-react';
 
 type PlanType = 'starter' | 'unlimited' | 'pro';
 
@@ -59,6 +71,143 @@ const ADDON_PRICES = {
   dedicatedIP: 59,
   a2pPerCampaign: 11.025,
 };
+
+// User Guide Component
+function UserGuide() {
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const tabs = [
+    {
+      icon: <Calculator className="w-5 h-5 text-blue-600" />,
+      title: "Agency Cost Calculator",
+      description: "Start here! Calculate your total GoHighLevel costs including platform subscription, usage-based fees (SMS, calls, emails), and optional add-ons like AI Employee or HIPAA compliance.",
+      tips: ["Select your plan tier", "Estimate your monthly usage", "Add any premium features you need"]
+    },
+    {
+      icon: <TrendingUp className="w-5 h-5 text-green-600" />,
+      title: "SaaS Revenue Projector",
+      description: "Model your SaaS business revenue by setting up client pricing tiers. Project growth over 12-24 months and see how rebilling services can boost your margins.",
+      tips: ["Create up to 5 pricing tiers", "Set client counts per tier", "Adjust growth rate to model scenarios"]
+    },
+    {
+      icon: <Settings className="w-5 h-5 text-purple-600" />,
+      title: "Usage Cost Calculator",
+      description: "Deep dive into usage-based pricing. Understand exactly what you'll pay for SMS, voice calls, emails, and AI services at different volume levels.",
+      tips: ["See per-unit costs", "Compare LC Email tiers", "Calculate AI conversation costs"]
+    },
+    {
+      icon: <DollarSign className="w-5 h-5 text-orange-600" />,
+      title: "Rebilling Calculator",
+      description: "Compare the $297 vs $497 plan for rebilling profitability. See how markup percentages affect your monthly profits and find your break-even point.",
+      tips: ["Requires Pro ($497) plan for rebilling", "Adjust markup from 50% to 300%", "See break-even client count"]
+    },
+    {
+      icon: <BarChart3 className="w-5 h-5 text-indigo-600" />,
+      title: "Profit Dashboard",
+      description: "Comprehensive profit analysis with charts showing revenue vs costs, margin trends, and scenario comparisons (conservative, moderate, aggressive growth).",
+      tips: ["View key metrics at a glance", "Compare growth scenarios", "Export data for presentations"]
+    }
+  ];
+
+  return (
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200 mb-8 overflow-hidden">
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full px-6 py-4 flex items-center justify-between hover:bg-blue-50/50 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-blue-100 rounded-lg">
+            <BookOpen className="w-6 h-6 text-blue-600" />
+          </div>
+          <div className="text-left">
+            <h2 className="text-xl font-bold text-gray-900">How to Use This Calculator</h2>
+            <p className="text-sm text-gray-600">Quick guide to modeling your GoHighLevel costs and revenue</p>
+          </div>
+        </div>
+        {isExpanded ? (
+          <ChevronUp className="w-5 h-5 text-gray-500" />
+        ) : (
+          <ChevronDown className="w-5 h-5 text-gray-500" />
+        )}
+      </button>
+
+      {isExpanded && (
+        <div className="px-6 pb-6">
+          {/* Quick Start */}
+          <div className="bg-white rounded-lg p-4 mb-6 border border-blue-100">
+            <div className="flex items-start gap-3">
+              <Lightbulb className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">Quick Start Guide</h3>
+                <ol className="text-sm text-gray-600 space-y-1 list-decimal list-inside">
+                  <li><strong>Calculate your costs</strong> using the Agency Cost Calculator below</li>
+                  <li><strong>Set your pricing</strong> in the SaaS Revenue Projector tab</li>
+                  <li><strong>Model rebilling profits</strong> if you&apos;re on the Pro plan</li>
+                  <li><strong>Review your projections</strong> on the Profit Dashboard</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          {/* Tab Descriptions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {tabs.map((tab, index) => (
+              <div key={index} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-2">
+                  {tab.icon}
+                  <h3 className="font-semibold text-gray-900 text-sm">{tab.title}</h3>
+                </div>
+                <p className="text-xs text-gray-600 mb-3">{tab.description}</p>
+                <div className="space-y-1">
+                  {tab.tips.map((tip, tipIndex) => (
+                    <div key={tipIndex} className="flex items-center gap-1.5 text-xs text-gray-500">
+                      <ArrowRight className="w-3 h-3 text-blue-400" />
+                      <span>{tip}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pricing Model Overview */}
+          <div className="mt-6 bg-white rounded-lg p-4 border border-gray-200">
+            <h3 className="font-semibold text-gray-900 mb-3">GoHighLevel Pricing Model Overview</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <div className="font-medium text-gray-900 mb-1">Starter - $97/mo</div>
+                <ul className="text-xs text-gray-600 space-y-0.5">
+                  <li>• Up to 3 sub-accounts</li>
+                  <li>• Basic CRM & automation</li>
+                  <li>• Usage fees apply</li>
+                </ul>
+              </div>
+              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="font-medium text-blue-900 mb-1">Unlimited - $297/mo</div>
+                <ul className="text-xs text-blue-700 space-y-0.5">
+                  <li>• Unlimited sub-accounts</li>
+                  <li>• All Starter features</li>
+                  <li>• White-label capabilities</li>
+                </ul>
+              </div>
+              <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                <div className="font-medium text-purple-900 mb-1">Pro (SaaS) - $497/mo</div>
+                <ul className="text-xs text-purple-700 space-y-0.5">
+                  <li>• Everything in Unlimited</li>
+                  <li>• <strong>Rebilling markup</strong> capability</li>
+                  <li>• SaaS mode & API access</li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-3 italic">
+              💡 Pro tip: The $497 Pro plan pays for itself if you can markup usage costs to clients. Even a 50% markup on $500/mo in usage = $250 extra profit!
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AgencyCostCalculator() {
   const [selectedPlan, setSelectedPlan] = useState<PlanType>('unlimited');
@@ -161,6 +310,9 @@ export default function AgencyCostCalculator() {
 
   return (
     <div className="w-full max-w-7xl mx-auto p-6">
+      {/* User Guide */}
+      <UserGuide />
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Agency Cost Calculator
